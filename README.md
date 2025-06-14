@@ -8,6 +8,7 @@ A modern coffee shop website built with Next.js and Tailwind CSS.
 - Modern UI/UX
 - Fast performance
 - SEO friendly
+- Deployed on Vercel
 
 ## Getting Started
 
@@ -46,3 +47,8 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 This project is deployed on Vercel.
+
+## Deployment
+
+This project is deployed on Vercel.
+Last updated: 2024
