@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { FiHeart } from 'react-icons/fi';
-import { useCart } from '../../../context/CartContext';
+import { useCart } from '@/app/context/CartContext';
 
 // 商品データ
 const products = {
@@ -45,7 +45,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const { addToCart } = useCart();
+  const { addItem } = useCart();
 
   useEffect(() => {
     // ローカルストレージからお気に入り状態を取得
@@ -70,11 +70,11 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     
     // 選択した数量分だけカートに追加
     for (let i = 0; i < quantity; i++) {
-      addToCart({
+      addItem({
         id: product.id,
         name: product.name,
         price: product.price,
-        image: product.image,
+        quantity: 1,
       });
     }
 
