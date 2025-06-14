@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { FiHeart } from "react-icons/fi";
-import { useCart } from "../../context/CartContext";
+import { useCart } from "@/app/context/CartContext";
 import Link from 'next/link';
 
 // 仮の商品データ
@@ -203,44 +203,15 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const { addToCart } = useCart();
+  const { addItem } = useCart();
 
   useEffect(() => {
     // ローカルストレージからお気に入り状態を取得
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    setIsFavorite(favorites.includes(params.id));
-  }, [params.id]);
-
-  const toggleFavorite = () => {
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const newFavorites = isFavorite
-      ? favorites.filter((id: string) => id !== params.id)
-      : [...favorites, params.id];
-    
-    localStorage.setItem('favorites', JSON.stringify(newFavorites));
-    setIsFavorite(!isFavorite);
-  };
-
-  const handleAddToCart = () => {
-    if (!product) return;
-    
-    setIsAddingToCart(true);
-    
-    // 選択した数量分だけカートに追加
-    for (let i = 0; i < quantity; i++) {
-      addToCart({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.image,
-      });
+    const savedFavorite = localStorage.getItem(`favorite_${params.id}`);
+    if (savedFavorite) {
+      setIsFavorite(JSON.parse(savedFavorite));
     }
-
-    // アニメーションのための遅延
-    setTimeout(() => {
-      setIsAddingToCart(false);
-    }, 500);
-  };
+  }, [params.id]);
 
   const product = products[params.id as keyof typeof products];
 
@@ -259,6 +230,25 @@ export default function ProductPage({ params }: { params: { id: string } }) {
       </div>
     );
   }
+
+  const handleAddToCart = () => {
+    setIsAddingToCart(true);
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: quantity,
+    });
+    setTimeout(() => {
+      setIsAddingToCart(false);
+    }, 1000);
+  };
+
+  const toggleFavorite = () => {
+    const newFavoriteState = !isFavorite;
+    setIsFavorite(newFavoriteState);
+    localStorage.setItem(`favorite_${params.id}`, JSON.stringify(newFavoriteState));
+  };
 
   return (
     <div className="container mx-auto px-4 py-16">
