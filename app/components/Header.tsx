@@ -7,7 +7,7 @@ import { useCart } from '../context/CartContext';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { items } = useCart();
+  const { totalItems } = useCart();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-coffee-800 text-white">
@@ -37,9 +37,9 @@ export default function Header() {
             </Link>
             <Link href="/cart" className="relative text-white hover:text-coffee-200 transition-colors">
               <FiShoppingCart className="w-6 h-6" />
-              {items.length > 0 && (
+              {totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 bg-coffee-200 text-coffee-800 text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  {items.length}
+                  {totalItems}
                 </span>
               )}
             </Link>
@@ -52,9 +52,9 @@ export default function Header() {
             </Link>
             <Link href="/cart" className="relative text-white">
               <FiShoppingCart className="w-6 h-6" />
-              {items.length > 0 && (
+              {totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 bg-coffee-200 text-coffee-800 text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  {items.length}
+                  {totalItems}
                 </span>
               )}
             </Link>
