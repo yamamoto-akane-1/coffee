@@ -121,7 +121,7 @@ export default function CoffeeBeansPage() {
                 </div>
               </div>
               <Link
-                href={`/products/${bean.id}`}
+                href={`/products/coffee-beans/${bean.id}`}
                 className="mt-4 inline-block w-full bg-coffee-600 hover:bg-coffee-700 text-white text-center py-2 rounded-lg transition-colors"
               >
                 商品詳細を見る
