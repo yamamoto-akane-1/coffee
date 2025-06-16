@@ -10,7 +10,7 @@ export default function Home() {
       <section className="relative h-screen w-full overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085"
+            src="/images/hero1.jpg"
             alt="コーヒーショップ"
             fill
             priority
