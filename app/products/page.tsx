@@ -1,64 +1,73 @@
 'use client';
 
-import { useState } from 'react';
-import { useCart } from '../context/CartContext';
-import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
+import { FiHeart } from 'react-icons/fi';
+import { useFavorites } from '../context/FavoritesContext';
 
+// 商品データ
 const products = [
   {
-    id: '1',
+    id: 1,
     name: 'エチオピア イルガチェフェ',
-    description: '柑橘系の爽やかな酸味と、はちみつのような甘みが特徴的な、エチオピア産の高品質なコーヒー豆です。',
-    price: 1500,
-    image: '/images/ethiopia.jpg',
+    description: 'フルーティーな香りと柑橘系の酸味が特徴のエチオピア産コーヒーです。',
+    price: 1200,
+    image: '/images/coffee1.jpg',
     category: 'coffee'
   },
   {
-    id: '2',
+    id: 2,
     name: 'グアテマラ アンティグア',
-    description: 'チョコレートのような深いコクと、バランスの取れた酸味が特徴の、グアテマラ産のコーヒー豆です。',
-    price: 1600,
-    image: '/images/guatemala.jpg',
+    description: 'チョコレートのような甘みとバランスの取れた味わいのグアテマラ産コーヒーです。',
+    price: 1300,
+    image: '/images/coffee2.jpg',
     category: 'coffee'
   },
   {
-    id: '3',
+    id: 3,
     name: 'コロンビア スプレモ',
-    description: 'ナッツのような香りと、まろやかな甘みが特徴の、コロンビア産の高品質なコーヒー豆です。',
-    price: 1400,
-    image: '/images/colombia.jpg',
+    description: 'ナッツのような香りとまろやかな味わいのコロンビア産コーヒーです。',
+    price: 1100,
+    image: '/images/coffee3.jpg',
     category: 'coffee'
   },
   {
-    id: '4',
+    id: 4,
     name: 'ドリップセット',
-    description: '初心者でも美味しいコーヒーが淹れられる、必要な道具が揃ったセットです。',
-    price: 5000,
-    image: '/images/drip-set.jpg',
+    description: 'コーヒーを美味しく淹れるための基本セットです。',
+    price: 3500,
+    image: '/images/coffee4.jpg',
     category: 'equipment'
   },
   {
-    id: '5',
+    id: 5,
     name: 'タンブラー',
-    description: '保温性の高いステンレスタンブラー。持ち運びに便利なサイズです。',
-    price: 3000,
-    image: '/images/tumbler.jpg',
+    description: '保温性の高いステンレスタンブラーです。',
+    price: 2800,
+    image: '/images/coffee5.jpg',
     category: 'tumbler'
   },
   {
-    id: '6',
+    id: 6,
     name: 'ギフトセット',
-    description: 'コーヒー豆とドリップセットがセットになった、贈り物にぴったりのギフトボックスです。',
-    price: 8000,
-    image: '/images/gift-set.jpg',
+    description: 'コーヒー豆とドリッパーのセットです。',
+    price: 4500,
+    image: '/images/coffee6.jpg',
     category: 'gift'
   }
 ];
 
+const categories = [
+  { id: 'all', name: 'すべて' },
+  { id: 'coffee', name: 'コーヒー豆' },
+  { id: 'equipment', name: '器具' },
+  { id: 'tumbler', name: 'タンブラー' },
+  { id: 'gift', name: 'ギフト' }
+];
+
 export default function ProductsPage() {
-  const { addItem } = useCart();
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
 
   const filteredProducts = selectedCategory === 'all'
     ? products
@@ -69,71 +78,31 @@ export default function ProductsPage() {
       <h1 className="text-3xl font-bold mb-8">商品一覧</h1>
 
       {/* カテゴリーフィルター */}
-      <div className="mb-8">
-        <div className="flex space-x-4">
+      <div className="flex flex-wrap gap-4 mb-8">
+        {categories.map(category => (
           <button
-            onClick={() => setSelectedCategory('all')}
-            className={`px-4 py-2 rounded ${
-              selectedCategory === 'all'
+            key={category.id}
+            onClick={() => setSelectedCategory(category.id)}
+            className={`px-4 py-2 rounded-full ${
+              selectedCategory === category.id
                 ? 'bg-coffee-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
-            すべて
+            {category.name}
           </button>
-          <button
-            onClick={() => setSelectedCategory('coffee')}
-            className={`px-4 py-2 rounded ${
-              selectedCategory === 'coffee'
-                ? 'bg-coffee-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
-          >
-            コーヒー豆
-          </button>
-          <button
-            onClick={() => setSelectedCategory('equipment')}
-            className={`px-4 py-2 rounded ${
-              selectedCategory === 'equipment'
-                ? 'bg-coffee-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
-          >
-            ドリップ用品
-          </button>
-          <button
-            onClick={() => setSelectedCategory('tumbler')}
-            className={`px-4 py-2 rounded ${
-              selectedCategory === 'tumbler'
-                ? 'bg-coffee-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
-          >
-            タンブラー
-          </button>
-          <button
-            onClick={() => setSelectedCategory('gift')}
-            className={`px-4 py-2 rounded ${
-              selectedCategory === 'gift'
-                ? 'bg-coffee-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
-          >
-            ギフトセット
-          </button>
-        </div>
+        ))}
       </div>
 
       {/* 商品グリッド */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredProducts.map(product => (
           <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="relative h-48">
-              <Image
+            <div className="relative aspect-square">
+              <img
                 src={product.image}
                 alt={product.name}
-                fill
-                className="object-cover"
+                className="w-full h-full object-cover"
               />
             </div>
             <div className="p-4">
@@ -141,12 +110,26 @@ export default function ProductsPage() {
               <p className="text-gray-600 mb-4">{product.description}</p>
               <div className="flex justify-between items-center">
                 <p className="text-xl font-bold">¥{product.price}</p>
-                <Link
-                  href={`/products/${product.id}`}
-                  className="bg-coffee-600 text-white px-4 py-2 rounded hover:bg-coffee-700"
-                >
-                  詳細を見る
-                </Link>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => {
+                      if (isFavorite(product.id)) {
+                        removeFromFavorites(product.id);
+                      } else {
+                        addToFavorites(product);
+                      }
+                    }}
+                    className="text-coffee-600 hover:text-coffee-700"
+                  >
+                    <FiHeart className={isFavorite(product.id) ? 'fill-current' : ''} />
+                  </button>
+                  <Link
+                    href={`/products/${product.id}`}
+                    className="bg-coffee-600 text-white px-4 py-2 rounded hover:bg-coffee-700"
+                  >
+                    詳細を見る
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
