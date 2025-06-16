@@ -38,7 +38,7 @@ export default function Header() {
             <Link href="/cart" className="relative text-white hover:text-coffee-200 transition-colors">
               <FiShoppingCart className="w-6 h-6" />
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-coffee-200 text-coffee-800 text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-lg transform scale-100 hover:scale-110 transition-transform">
                   {totalItems}
                 </span>
               )}
@@ -53,7 +53,7 @@ export default function Header() {
             <Link href="/cart" className="relative text-white">
               <FiShoppingCart className="w-6 h-6" />
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-coffee-200 text-coffee-800 text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-lg transform scale-100 hover:scale-110 transition-transform">
                   {totalItems}
                 </span>
               )}
