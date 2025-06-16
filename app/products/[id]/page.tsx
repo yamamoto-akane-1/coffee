@@ -207,11 +207,36 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     // ローカルストレージからお気に入り状態を取得
-    const savedFavorite = localStorage.getItem(`favorite_${params.id}`);
-    if (savedFavorite) {
-      setIsFavorite(JSON.parse(savedFavorite));
-    }
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    setIsFavorite(favorites.includes(params.id));
   }, [params.id]);
+
+  const toggleFavorite = () => {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const newFavorites = isFavorite
+      ? favorites.filter((id: string) => id !== params.id)
+      : [...favorites, params.id];
+    
+    localStorage.setItem('favorites', JSON.stringify(newFavorites));
+    setIsFavorite(!isFavorite);
+  };
+
+  const handleAddToCart = () => {
+    if (!product) return;
+    
+    setIsAddingToCart(true);
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: quantity,
+    });
+
+    // アニメーションのための遅延
+    setTimeout(() => {
+      setIsAddingToCart(false);
+    }, 500);
+  };
 
   const product = products[params.id as keyof typeof products];
 
@@ -230,25 +255,6 @@ export default function ProductPage({ params }: { params: { id: string } }) {
       </div>
     );
   }
-
-  const handleAddToCart = () => {
-    setIsAddingToCart(true);
-    addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: quantity,
-    });
-    setTimeout(() => {
-      setIsAddingToCart(false);
-    }, 1000);
-  };
-
-  const toggleFavorite = () => {
-    const newFavoriteState = !isFavorite;
-    setIsFavorite(newFavoriteState);
-    localStorage.setItem(`favorite_${params.id}`, JSON.stringify(newFavoriteState));
-  };
 
   return (
     <div className="container mx-auto px-4 py-16">
