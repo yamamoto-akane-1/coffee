@@ -230,21 +230,17 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   };
 
   const handleAddToCart = () => {
-    if (!products[params.id as keyof typeof products]) return;
+    if (!product) return;
     
     setIsAddingToCart(true);
     addItem({
-      id: products[params.id as keyof typeof products].id,
-      name: products[params.id as keyof typeof products].name,
-      price: products[params.id as keyof typeof products].price,
+      id: product.id,
+      name: product.name,
+      price: product.price,
       quantity: quantity,
-      image: products[params.id as keyof typeof products].image
+      image: product.image
     });
-
-    // アニメーションのための遅延
-    setTimeout(() => {
-      setIsAddingToCart(false);
-    }, 500);
+    setTimeout(() => setIsAddingToCart(false), 1000);
   };
 
   const product = products[params.id as keyof typeof products];

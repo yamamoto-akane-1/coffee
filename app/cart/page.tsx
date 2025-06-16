@@ -32,12 +32,13 @@ export default function CartPage() {
           <div className="bg-white rounded-lg shadow-md p-6">
             {items.map(item => (
               <div key={item.id} className="flex items-center py-4 border-b last:border-b-0">
-                <div className="w-24 h-24 relative">
+                <div className="w-24 h-24 relative flex-shrink-0">
                   <Image
                     src={item.image || '/images/placeholder.jpg'}
                     alt={item.name}
                     fill
                     className="object-cover rounded"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
                 <div className="ml-4 flex-grow">
