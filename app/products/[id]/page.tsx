@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { FiHeart } from "react-icons/fi";
 import { useCart } from "@/app/context/CartContext";
 import Link from 'next/link';
+import { useFavorites } from '../../context/FavoritesContext';
 
 // 仮の商品データ
 const products = {
@@ -13,7 +14,7 @@ const products = {
     name: "エチオピア イルガチェフェ",
     description: "柑橘系の爽やかな酸味と、はちみつのような甘みが特徴のエチオピア産コーヒー豆です。",
     price: 1800,
-    image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e",
+    image: "/images/ethiopia.jpg",
     details: [
       "産地：エチオピア イルガチェフェ",
       "品種：エチオピアンヘイロー",
@@ -45,7 +46,7 @@ const products = {
     name: "グアテマラ アンティグア",
     description: "チョコレートのような深い甘みと、ナッツの風味が特徴のグアテマラ産コーヒー豆です。",
     price: 2000,
-    image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd",
+    image: "/images/guatemala.jpg",
     details: [
       "産地：グアテマラ アンティグア",
       "品種：ブルボン",
@@ -70,7 +71,7 @@ const products = {
     name: "コロンビア スプレモ",
     description: "バランスの取れた味わいと、クリーンな後味が特徴のコロンビア産コーヒー豆です。",
     price: 1900,
-    image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8",
+    image: "/images/colombia.jpg",
     details: [
       "産地：コロンビア スプレモ",
       "品種：カトゥーラ",
@@ -204,12 +205,19 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const { addItem } = useCart();
+  const { addFavorite, removeFavorite, isFavorite: isFavoriteContext } = useFavorites();
 
   useEffect(() => {
     // ローカルストレージからお気に入り状態を取得
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     setIsFavorite(favorites.includes(params.id));
   }, [params.id]);
+
+  useEffect(() => {
+    if (products[params.id as keyof typeof products]) {
+      setIsFavorite(isFavoriteContext(params.id));
+    }
+  }, [params.id, isFavoriteContext]);
 
   const toggleFavorite = () => {
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
@@ -222,14 +230,15 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   };
 
   const handleAddToCart = () => {
-    if (!product) return;
+    if (!products[params.id as keyof typeof products]) return;
     
     setIsAddingToCart(true);
     addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
+      id: products[params.id as keyof typeof products].id,
+      name: products[params.id as keyof typeof products].name,
+      price: products[params.id as keyof typeof products].price,
       quantity: quantity,
+      image: products[params.id as keyof typeof products].image
     });
 
     // アニメーションのための遅延
