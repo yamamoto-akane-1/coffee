@@ -6,63 +6,7 @@ import Link from 'next/link';
 import { useCart } from '@/app/context/CartContext';
 import { useFavorites } from '@/app/context/FavoritesContext';
 import { Product } from "@/app/types";
-
-export const products: Product[] = [
-  {
-    id: "ethiopia",
-    name: "エチオピア イルガチェフェ",
-    description: "柑橘系の爽やかな酸味と、はちみつのような甘みが特徴的なエチオピア産のコーヒーです。",
-    price: 1800,
-    image: "/images/products/coffee-beans-1.jpg",
-    category: "coffee-beans",
-    details: [
-      "産地: エチオピア イルガチェフェ",
-      "品種: エチオピアンヘイロー",
-      "精製方法: ウォッシュド",
-      "焙煎度: 中煎り",
-      "容量: 200g",
-    ],
-    story: "エチオピアのイルガチェフェ地区で栽培された、高品質なアラビカ種のコーヒーです。標高1,800m以上の高地で栽培され、昼夜の寒暖差が大きい環境で育つため、複雑な風味と爽やかな酸味が特徴です。",
-    averageRating: 4.8,
-    totalReviews: 128,
-  },
-  {
-    id: "colombia",
-    name: "コロンビア スプレモ",
-    description: "バランスの取れた味わいと、ナッツのような香りが特徴のコロンビア産コーヒーです。",
-    price: 1600,
-    image: "/images/products/coffee-beans-2.jpg",
-    category: "coffee-beans",
-    details: [
-      "産地: コロンビア",
-      "品種: カトゥーラ",
-      "精製方法: ウォッシュド",
-      "焙煎度: 中煎り",
-      "容量: 200g",
-    ],
-    story: "コロンビアの標高1,500m以上の高地で栽培された、高品質なアラビカ種のコーヒーです。昼夜の寒暖差が大きい環境で育つため、バランスの取れた味わいと、ナッツのような香りが特徴です。",
-    averageRating: 4.5,
-    totalReviews: 95,
-  },
-  {
-    id: "guatemala",
-    name: "グアテマラ アンティグア",
-    description: "チョコレートのような深い味わいと、スパイシーな香りが特徴のグアテマラ産コーヒーです。",
-    price: 1700,
-    image: "/images/products/coffee-beans-3.jpg",
-    category: "coffee-beans",
-    details: [
-      "産地: グアテマラ アンティグア",
-      "品種: ブルボン",
-      "精製方法: ウォッシュド",
-      "焙煎度: 中深煎り",
-      "容量: 200g",
-    ],
-    story: "グアテマラのアンティグア地区で栽培された、高品質なアラビカ種のコーヒーです。火山灰の土壌で育つため、ミネラル分が豊富で、チョコレートのような深い味わいと、スパイシーな香りが特徴です。",
-    averageRating: 4.7,
-    totalReviews: 82,
-  },
-];
+import { coffeeBeans } from '@/app/data/products';
 
 export default function CoffeeBeansPage() {
   const { addToCart } = useCart();
@@ -86,78 +30,22 @@ export default function CoffeeBeansPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 pt-24 pb-16">
-      <h1 className="text-3xl font-bold text-center mb-8">コーヒー豆</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {products.map((bean) => (
-          <div key={bean.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="relative h-48">
-              <Image
-                src={bean.image}
-                alt={bean.name}
-                fill
-                className="object-cover"
-              />
-              <button
-                onClick={() => handleToggleFavorite(bean.id)}
-                className="absolute top-2 right-2 p-2 rounded-full bg-white/80 hover:bg-white transition-colors"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`h-6 w-6 ${
-                    isFavorite(bean.id)
-                      ? "text-red-500 fill-current"
-                      : "text-gray-400"
-                  }`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                  />
-                </svg>
-              </button>
-            </div>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8">コーヒー豆</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {coffeeBeans.map((product) => (
+          <div key={product.id} className="border rounded-lg overflow-hidden shadow-lg">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-48 object-cover"
+            />
             <div className="p-4">
-              <h2 className="text-xl font-semibold mb-2">{bean.name}</h2>
-              <p className="text-gray-600 text-sm mb-4">{bean.description}</p>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="flex">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <svg
-                      key={star}
-                      className={`h-4 w-4 ${
-                        star <= Math.round(bean.averageRating)
-                          ? "text-yellow-400"
-                          : "text-gray-300"
-                      }`}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <span className="text-sm text-gray-600">
-                  {bean.averageRating} ({bean.totalReviews}件のレビュー)
-                </span>
-              </div>
-              <div className="text-xl font-bold mb-4">¥{bean.price.toLocaleString()}</div>
-              <div className="space-y-2">
-                <Link
-                  href={`/products/coffee-beans/${bean.id}`}
-                  className="block w-full bg-coffee-600 hover:bg-coffee-700 text-white text-center py-2 rounded-lg transition-colors"
-                >
-                  商品詳細を見る
-                </Link>
-                <button
-                  onClick={() => handleAddToCart(bean)}
-                  className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 rounded-lg transition-colors"
-                >
+              <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
+              <p className="text-gray-600 mb-4">{product.description}</p>
+              <div className="flex justify-between items-center">
+                <span className="text-lg font-bold">¥{product.price.toLocaleString()}</span>
+                <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                   カートに追加
                 </button>
               </div>
