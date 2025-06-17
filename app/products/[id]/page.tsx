@@ -1,21 +1,37 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect } from "react";
-import { FiHeart } from "react-icons/fi";
+import { useRouter } from "next/navigation";
 import { useCart } from "@/app/context/CartContext";
-import Link from 'next/link';
-import { useFavorites } from '../../context/FavoritesContext';
-import { useRouter } from 'next/navigation';
-import { FiShoppingCart } from 'react-icons/fi';
+import { useFavorites } from "@/app/context/FavoritesContext";
 import { Product } from "@/app/types";
 import { coffeeBeans, dripEquipment, tumblers, giftSets } from '@/app/data/products';
 
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
-  const allProducts = [...coffeeBeans, ...dripEquipment, ...tumblers, ...giftSets];
-  const product = allProducts.find((p) => p.id === params.id);
+  const router = useRouter();
+  const { addToCart } = useCart();
+  const { toggleFavorite, isFavorite } = useFavorites();
+  const [mounted, setMounted] = useState(false);
+  const [product, setProduct] = useState<Product | null>(null);
 
-  if (!product) {
+  useEffect(() => {
+    setMounted(true);
+    const allProducts = [...coffeeBeans, ...dripEquipment, ...tumblers, ...giftSets];
+    const foundProduct = allProducts.find((p) => p.id === params.id);
+    if (foundProduct) {
+      setProduct(foundProduct);
+    }
+  }, [params.id]);
+
+  const handleAddToCart = (product: Product) => {
+    addToCart(product);
+  };
+
+  const handleToggleFavorite = (id: string) => {
+    toggleFavorite(id);
+  };
+
+  if (!mounted || !product) {
     return (
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">商品が見つかりません</h1>
@@ -23,6 +39,13 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
       </div>
     );
   }
+
+  const renderDetailValue = (value: string | number | string[] | { [key: string]: number } | undefined) => {
+    if (value === undefined) return '';
+    if (Array.isArray(value)) return value.join(', ');
+    if (typeof value === 'object') return JSON.stringify(value);
+    return String(value);
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -44,13 +67,16 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
               {Object.entries(product.details).map(([key, value]) => (
                 <div key={key} className="mb-2">
                   <span className="font-semibold">{key}: </span>
-                  {Array.isArray(value) ? value.join(', ') : value}
+                  {renderDetailValue(value)}
                 </div>
               ))}
             </div>
           </div>
           <div className="mt-8">
-            <button className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+            <button
+              onClick={() => handleAddToCart(product)}
+              className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
+            >
               カートに追加
             </button>
           </div>

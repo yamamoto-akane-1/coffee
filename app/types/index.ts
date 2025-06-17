@@ -8,7 +8,7 @@ export type Product = {
   totalReviews: number;
   category?: string;
   details: {
-    [key: string]: string | number | string[] | { [key: string]: number };
+    [key: string]: string | number | string[] | { [key: string]: number } | undefined;
   };
   story?: string;
 }; 
