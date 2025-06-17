@@ -7,6 +7,8 @@ export type Product = {
   averageRating: number;
   totalReviews: number;
   category?: string;
-  details: string[];
+  details: {
+    [key: string]: string | number | string[] | { [key: string]: number };
+  };
   story?: string;
 }; 
