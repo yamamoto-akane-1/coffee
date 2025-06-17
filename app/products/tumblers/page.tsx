@@ -9,62 +9,62 @@ import { Product } from "@/app/types";
 
 export const products: Product[] = [
   {
-    id: "ethiopia",
-    name: "エチオピア イルガチェフェ",
-    description: "柑橘系の爽やかな酸味と、はちみつのような甘みが特徴的なエチオピア産のコーヒーです。",
-    price: 1800,
-    image: "/images/products/coffee-beans-1.jpg",
-    category: "coffee-beans",
+    id: "stainless-tumbler",
+    name: "ステンレスタンブラー",
+    description: "保温・保冷効果が高く、持ち運びに便利なステンレスタンブラーです。",
+    price: 2800,
+    image: "https://images.unsplash.com/photo-1511920170033-f8396924c348",
+    category: "tumbler",
     details: [
-      "産地: エチオピア イルガチェフェ",
-      "品種: エチオピアンヘイロー",
-      "精製方法: ウォッシュド",
-      "焙煎度: 中煎り",
-      "容量: 200g",
+      "容量: 350ml",
+      "素材: ステンレス",
+      "保温時間: 6時間",
+      "保冷時間: 12時間",
+      "カラー: シルバー"
     ],
-    story: "エチオピアのイルガチェフェ地区で栽培された、高品質なアラビカ種のコーヒーです。標高1,800m以上の高地で栽培され、昼夜の寒暖差が大きい環境で育つため、複雑な風味と爽やかな酸味が特徴です。",
+    story: "高品質なステンレスを使用した、保温・保冷効果の高いタンブラーです。外出先でも美味しいコーヒーを楽しめます。",
     averageRating: 4.8,
-    totalReviews: 128,
+    totalReviews: 189
   },
   {
-    id: "colombia",
-    name: "コロンビア スプレモ",
-    description: "バランスの取れた味わいと、ナッツのような香りが特徴のコロンビア産コーヒーです。",
-    price: 1600,
-    image: "/images/products/coffee-beans-2.jpg",
-    category: "coffee-beans",
+    id: "ceramic-tumbler",
+    name: "セラミックタンブラー",
+    description: "手触りの良い、温かみのあるセラミックタンブラーです。",
+    price: 2200,
+    image: "https://images.unsplash.com/photo-1511920170033-f8396924c348",
+    category: "tumbler",
     details: [
-      "産地: コロンビア",
-      "品種: カトゥーラ",
-      "精製方法: ウォッシュド",
-      "焙煎度: 中煎り",
-      "容量: 200g",
+      "容量: 300ml",
+      "素材: セラミック",
+      "耐熱温度: 100℃",
+      "カラー: ホワイト",
+      "手洗い推奨"
     ],
-    story: "コロンビアの標高1,500m以上の高地で栽培された、高品質なアラビカ種のコーヒーです。昼夜の寒暖差が大きい環境で育つため、バランスの取れた味わいと、ナッツのような香りが特徴です。",
-    averageRating: 4.5,
-    totalReviews: 95,
+    story: "職人の手作業で丁寧に作られた、温かみのあるセラミックタンブラーです。コーヒーの香りを最大限に引き出します。",
+    averageRating: 4.6,
+    totalReviews: 142
   },
   {
-    id: "guatemala",
-    name: "グアテマラ アンティグア",
-    description: "チョコレートのような深い味わいと、スパイシーな香りが特徴のグアテマラ産コーヒーです。",
-    price: 1700,
-    image: "/images/products/coffee-beans-3.jpg",
-    category: "coffee-beans",
+    id: "glass-tumbler",
+    name: "ガラスタンブラー",
+    description: "透明感のある、スタイリッシュなガラスタンブラーです。",
+    price: 1800,
+    image: "https://images.unsplash.com/photo-1511920170033-f8396924c348",
+    category: "tumbler",
     details: [
-      "産地: グアテマラ アンティグア",
-      "品種: ブルボン",
-      "精製方法: ウォッシュド",
-      "焙煎度: 中深煎り",
-      "容量: 200g",
+      "容量: 320ml",
+      "素材: 耐熱ガラス",
+      "耐熱温度: 120℃",
+      "カラー: クリア",
+      "食器洗い機対応"
     ],
-    story: "グアテマラのアンティグア地区で栽培された、高品質なアラビカ種のコーヒーです。火山灰の土壌で育つため、ミネラル分が豊富で、チョコレートのような深い味わいと、スパイシーな香りが特徴です。",
+    story: "透明度の高い耐熱ガラスを使用した、スタイリッシュなタンブラーです。コーヒーの色合いも美しく映えます。",
     averageRating: 4.7,
-    totalReviews: 82,
-  },
+    totalReviews: 156
+  }
 ];
 
-export default function CoffeeBeansPage() {
+export default function TumblersPage() {
   const { addToCart } = useCart();
   const { toggleFavorite, isFavorite } = useFavorites();
   const [mounted, setMounted] = useState(false);
@@ -77,35 +77,31 @@ export default function CoffeeBeansPage() {
     addToCart(product);
   };
 
-  const handleToggleFavorite = (id: string) => {
-    toggleFavorite(id);
-  };
-
   if (!mounted) {
     return null;
   }
 
   return (
     <div className="container mx-auto px-4 pt-24 pb-16">
-      <h1 className="text-3xl font-bold text-center mb-8">コーヒー豆</h1>
+      <h1 className="text-3xl font-bold text-center mb-8">タンブラー</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {products.map((bean) => (
-          <div key={bean.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+        {products.map((item) => (
+          <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="relative h-48">
               <Image
-                src={bean.image}
-                alt={bean.name}
+                src={item.image}
+                alt={item.name}
                 fill
                 className="object-cover"
               />
               <button
-                onClick={() => handleToggleFavorite(bean.id)}
+                onClick={() => toggleFavorite(item.id)}
                 className="absolute top-2 right-2 p-2 rounded-full bg-white/80 hover:bg-white transition-colors"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className={`h-6 w-6 ${
-                    isFavorite(bean.id)
+                    isFavorite(item.id)
                       ? "text-red-500 fill-current"
                       : "text-gray-400"
                   }`}
@@ -123,15 +119,15 @@ export default function CoffeeBeansPage() {
               </button>
             </div>
             <div className="p-4">
-              <h2 className="text-xl font-semibold mb-2">{bean.name}</h2>
-              <p className="text-gray-600 text-sm mb-4">{bean.description}</p>
+              <h2 className="text-xl font-semibold mb-2">{item.name}</h2>
+              <p className="text-gray-600 text-sm mb-4">{item.description}</p>
               <div className="flex items-center space-x-2 mb-4">
                 <div className="flex">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <svg
                       key={star}
                       className={`h-4 w-4 ${
-                        star <= Math.round(bean.averageRating)
+                        star <= Math.round(item.averageRating)
                           ? "text-yellow-400"
                           : "text-gray-300"
                       }`}
@@ -143,19 +139,19 @@ export default function CoffeeBeansPage() {
                   ))}
                 </div>
                 <span className="text-sm text-gray-600">
-                  {bean.averageRating} ({bean.totalReviews}件のレビュー)
+                  {item.averageRating} ({item.totalReviews}件のレビュー)
                 </span>
               </div>
-              <div className="text-xl font-bold mb-4">¥{bean.price.toLocaleString()}</div>
+              <div className="text-xl font-bold mb-4">¥{item.price.toLocaleString()}</div>
               <div className="space-y-2">
                 <Link
-                  href={`/products/coffee-beans/${bean.id}`}
+                  href={`/products/tumblers/${item.id}`}
                   className="block w-full bg-coffee-600 hover:bg-coffee-700 text-white text-center py-2 rounded-lg transition-colors"
                 >
                   商品詳細を見る
                 </Link>
                 <button
-                  onClick={() => handleAddToCart(bean)}
+                  onClick={() => handleAddToCart(item)}
                   className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 rounded-lg transition-colors"
                 >
                   カートに追加
@@ -167,4 +163,4 @@ export default function CoffeeBeansPage() {
       </div>
     </div>
   );
-}
+} 

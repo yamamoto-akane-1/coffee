@@ -34,7 +34,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
           <div className="text-center">
             <h2 className="text-2xl font-bold text-gray-900">商品が見つかりませんでした</h2>
             <p className="mt-4 text-gray-600">
-              <Link href="/products/coffee-beans" className="text-blue-600 hover:text-blue-500">
+              <Link href="/products/drip-equipment" className="text-blue-600 hover:text-blue-500">
                 商品一覧に戻る
               </Link>
             </p>

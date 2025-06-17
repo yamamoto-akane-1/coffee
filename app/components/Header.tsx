@@ -5,11 +5,17 @@ import { useState } from 'react';
 import { FiShoppingCart, FiHeart, FiMenu, FiX } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
 import { useFavorites } from '../context/FavoritesContext';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { totalItems } = useCart();
-  const { totalFavorites } = useFavorites();
+  const { items } = useCart();
+  const { favorites } = useFavorites();
+  const router = useRouter();
+
+  const handleProductsClick = () => {
+    router.push('/#products');
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900 shadow-md">
@@ -19,9 +25,12 @@ export default function Header() {
             N coffee
           </Link>
           <div className="flex items-center space-x-6">
-            <Link href="/products" className="text-white hover:text-gray-300">
+            <button
+              onClick={handleProductsClick}
+              className="text-white hover:text-gray-300"
+            >
               商品一覧
-            </Link>
+            </button>
             <Link href="/about" className="text-white hover:text-gray-300">
               会社概要
             </Link>
@@ -30,17 +39,17 @@ export default function Header() {
             </Link>
             <Link href="/favorites" className="text-white hover:text-gray-300 relative">
               <FiHeart size={20} />
-              {totalFavorites > 0 && (
+              {favorites.length > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
-                  {totalFavorites}
+                  {favorites.length}
                 </span>
               )}
             </Link>
             <Link href="/cart" className="text-white hover:text-gray-300 relative">
               <FiShoppingCart size={20} />
-              {totalItems > 0 && (
+              {items.length > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
-                  {totalItems}
+                  {items.length}
                 </span>
               )}
             </Link>

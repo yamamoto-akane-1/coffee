@@ -1,41 +1,44 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useFavorites } from '@/app/context/FavoritesContext';
+import { Product } from '@/app/types';
 
-// 仮のお気に入り商品データ
-const favoriteProducts = [
-  {
-    id: "coffee-beans",
-    name: "エチオピア イルガチェフェ",
-    price: 1800,
-    image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e",
-  },
-  {
-    id: "drip-equipment",
-    name: "セラミックドリッパー",
-    price: 3500,
-    image: "/images/about/doriper.jpg",
-  }
-];
+// すべての商品データをインポート
+import { products as coffeeBeans } from '@/app/products/coffee-beans/page';
+import { products as dripEquipment } from '@/app/products/drip-equipment/page';
+import { products as tumblers } from '@/app/products/tumblers/page';
+import { products as giftSets } from '@/app/products/gift-sets/page';
+
+// すべての商品を結合
+const allProducts = [...coffeeBeans, ...dripEquipment, ...tumblers, ...giftSets];
 
 export default function FavoritesPage() {
-  const [favorites, setFavorites] = useState(favoriteProducts);
+  const { favorites, toggleFavorite } = useFavorites();
+  const [mounted, setMounted] = useState(false);
 
-  const removeFavorite = (productId: string) => {
-    setFavorites(favorites.filter(product => product.id !== productId));
-  };
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
+  // お気に入りの商品のみをフィルタリング
+  const favoriteProducts = allProducts.filter(product => favorites.includes(product.id));
 
   return (
     <div className="container mx-auto px-4 py-16">
       <h1 className="text-3xl font-bold text-coffee-800 mb-8 text-center">お気に入り商品</h1>
       
-      {favorites.length === 0 ? (
+      {favoriteProducts.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-gray-600 mb-4">お気に入り商品はまだありません</p>
           <Link 
-            href="/products" 
+            href="/#products" 
             className="inline-block bg-coffee-600 hover:bg-coffee-700 text-white px-6 py-2 rounded-full transition-colors"
           >
             商品を見る
@@ -43,7 +46,7 @@ export default function FavoritesPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {favorites.map((product) => (
+          {favoriteProducts.map((product) => (
             <div key={product.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
               <div className="relative h-64">
                 <Image
@@ -57,13 +60,13 @@ export default function FavoritesPage() {
               </div>
               <div className="p-6">
                 <div className="flex justify-between items-start mb-4">
-                  <Link href={`/products/${product.id}`}>
+                  <Link href={`/products/${product.category}/${product.id}`}>
                     <h3 className="text-xl font-bold text-black hover:text-blue-600 transition-colors">
                       {product.name}
                     </h3>
                   </Link>
                   <button
-                    onClick={() => removeFavorite(product.id)}
+                    onClick={() => toggleFavorite(product.id)}
                     className="text-red-500 hover:text-red-600 transition-colors"
                   >
                     <svg
@@ -86,7 +89,7 @@ export default function FavoritesPage() {
                   ¥{product.price.toLocaleString()}
                 </div>
                 <Link
-                  href={`/products/${product.id}`}
+                  href={`/products/${product.category}/${product.id}`}
                   className="inline-block bg-coffee-600 hover:bg-coffee-700 text-white px-6 py-2 rounded-full transition-colors"
                 >
                   商品詳細を見る

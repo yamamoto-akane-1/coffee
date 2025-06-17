@@ -43,12 +43,16 @@ export default function CheckoutPage() {
     }));
   };
 
+  const scrollToProducts = () => {
+    window.location.href = '/#products';
+  };
+
   if (items.length === 0) {
     return (
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold mb-4">カートが空です</h1>
         <button
-          onClick={() => router.push('/products')}
+          onClick={scrollToProducts}
           className="bg-coffee-600 text-white px-6 py-2 rounded hover:bg-coffee-700"
         >
           商品一覧に戻る
@@ -59,9 +63,9 @@ export default function CheckoutPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-8">お支払い情報</h1>
+      <h1 className="text-3xl font-bold mb-8">お支払い情報</h1>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 gap-8">
         {/* 注文内容 */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-bold mb-4">注文内容</h2>
@@ -159,6 +163,14 @@ export default function CheckoutPage() {
             </button>
           </form>
         </div>
+      </div>
+      <div className="mt-6 space-y-4">
+        <button
+          onClick={scrollToProducts}
+          className="w-full bg-gray-200 text-gray-800 py-3 rounded-lg hover:bg-gray-300 transition-colors"
+        >
+          商品一覧に戻る
+        </button>
       </div>
     </div>
   );

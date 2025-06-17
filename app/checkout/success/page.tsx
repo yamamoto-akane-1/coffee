@@ -1,22 +1,31 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { FiCheckCircle } from 'react-icons/fi';
+import { useCart } from '../../../context/CartContext';
+import { useEffect } from 'react';
 
-export default function CheckoutSuccessPage() {
+export default function CheckoutSuccess() {
   const router = useRouter();
+  const { clearCart } = useCart();
+
+  useEffect(() => {
+    clearCart();
+  }, [clearCart]);
+
+  const scrollToProducts = () => {
+    window.location.href = '/#products';
+  };
 
   return (
-    <div className="container mx-auto px-4 py-16 text-center">
-      <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
-        <FiCheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold mb-4">ご注文ありがとうございます</h1>
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto text-center">
+        <h1 className="text-3xl font-bold mb-4">ご注文ありがとうございます！</h1>
         <p className="text-gray-600 mb-8">
-          ご注文が正常に完了しました。確認メールを送信しましたので、ご確認ください。
+          ご注文が正常に処理されました。商品の準備が整い次第、発送いたします。
         </p>
         <button
-          onClick={() => router.push('/products')}
-          className="bg-coffee-600 text-white px-6 py-2 rounded hover:bg-coffee-700"
+          onClick={scrollToProducts}
+          className="bg-coffee-600 text-white px-6 py-3 rounded-lg hover:bg-coffee-700 transition-colors"
         >
           商品一覧に戻る
         </button>

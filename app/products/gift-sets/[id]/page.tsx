@@ -1,13 +1,89 @@
-"use client";
+'use client';
 
-import { useParams } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import { useCart } from "@/app/context/CartContext";
-import { useFavorites } from "@/app/context/FavoritesContext";
+import { useParams } from 'next/navigation';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useCart } from '@/app/context/CartContext';
+import { useFavorites } from '@/app/context/FavoritesContext';
+import { FiShoppingCart, FiHeart } from 'react-icons/fi';
 import { Product } from "@/app/types";
+import { useState, useEffect } from "react";
 import { products } from "../page";
+
+const giftSets = [
+  {
+    id: "beginner-set",
+    name: "コーヒー初心者セット",
+    description: "コーヒーを始める方に最適なセット。ドリッパー、フィルター、コーヒー豆が含まれています。",
+    price: 5800,
+    image: "/images/beginner-set.jpg",
+    category: "gift",
+    details: [
+      "セラミックドリッパー",
+      "ペーパーフィルター（100枚）",
+      "エチオピア イルガチェフェ（100g）",
+      "コーヒー豆保存容器",
+      "淹れ方ガイドブック",
+    ],
+    story: "コーヒーを始める方のために、必要な道具と豆をセットにしました。初心者でも簡単に美味しいコーヒーを淹れることができます。",
+    averageRating: 4.8,
+    totalReviews: 12
+  },
+  {
+    id: "premium-set",
+    name: "プレミアムギフトセット",
+    description: "特別な贈り物に最適な高級セット。厳選されたコーヒー豆と高品質な器具が含まれています。",
+    price: 12800,
+    image: "/images/premium-set.jpg",
+    category: "gift",
+    details: [
+      "手作りのセラミックドリッパー",
+      "ステンレスフィルター",
+      "コーヒーミル",
+      "プレミアムコーヒー豆（200g）",
+      "特製ギフトボックス",
+    ],
+    story: "特別な贈り物のために、厳選された高品質なコーヒー豆と職人による手作りの器具をセットにしました。",
+    averageRating: 4.9,
+    totalReviews: 8
+  },
+  {
+    id: "enthusiast-set",
+    name: "コーヒー愛好家セット",
+    description: "コーヒーを楽しむための道具が揃ったセット。様々な抽出方法を試せます。",
+    price: 9800,
+    image: "/images/enthusiast-set.jpg",
+    category: "gift",
+    details: [
+      "セラミックドリッパー",
+      "フレンチプレス",
+      "コーヒースケール",
+      "コーヒーミル",
+      "3種類のコーヒー豆（各100g）",
+    ],
+    story: "コーヒー愛好家のために、様々な抽出方法を試せる道具と厳選されたコーヒー豆をセットにしました。",
+    averageRating: 4.7,
+    totalReviews: 15
+  },
+  {
+    id: "office-set",
+    name: "オフィスギフトセット",
+    description: "オフィスでのコーヒー時間を充実させるセット。手軽に美味しいコーヒーを淹れられます。",
+    price: 7800,
+    image: "/images/office-set.jpg",
+    category: "gift",
+    details: [
+      "ドリッパー",
+      "ペーパーフィルター（200枚）",
+      "コーヒースケール",
+      "コーヒー豆（500g）",
+      "オフィス用保存容器",
+    ],
+    story: "オフィスでのコーヒー時間を充実させるために、必要な道具と豆をセットにしました。手軽に美味しいコーヒーを淹れることができます。",
+    averageRating: 4.6,
+    totalReviews: 10
+  }
+];
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const { addToCart } = useCart();
@@ -34,7 +110,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
           <div className="text-center">
             <h2 className="text-2xl font-bold text-gray-900">商品が見つかりませんでした</h2>
             <p className="mt-4 text-gray-600">
-              <Link href="/products/coffee-beans" className="text-blue-600 hover:text-blue-500">
+              <Link href="/products/gift-sets" className="text-blue-600 hover:text-blue-500">
                 商品一覧に戻る
               </Link>
             </p>

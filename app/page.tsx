@@ -4,6 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Home() {
+  const scrollToProducts = () => {
+    const productsSection = document.getElementById('products');
+    if (productsSection) {
+      productsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <main className="min-h-screen">
       {/* ヒーローセクション */}
@@ -32,12 +39,12 @@ export default function Home() {
             <p className="text-2xl md:text-3xl mb-10 font-light">
               最高の一杯を、あなたの日常に
             </p>
-            <Link
-              href="/products"
+            <button
+              onClick={scrollToProducts}
               className="inline-block bg-white text-black px-10 py-4 rounded-full text-lg font-bold hover:bg-coffee-100 transition-all duration-300 transform hover:scale-105"
             >
               商品を見る
-            </Link>
+            </button>
           </div>
         </div>
       </section>
@@ -127,7 +134,7 @@ export default function Home() {
                 />
               </div>
               <div className="p-6">
-                <Link href="/products/tumbler" className="block">
+                <Link href="/products/tumblers" className="block">
                   <h3 className="text-xl font-bold text-black mb-2 hover:text-blue-600 transition-colors">タンブラー</h3>
                 </Link>
                 <p className="text-gray-600">保温性の高いステンレスタンブラー</p>
@@ -144,7 +151,7 @@ export default function Home() {
                 />
               </div>
               <div className="p-6">
-                <Link href="/products/gift-set" className="block">
+                <Link href="/products/gift-sets" className="block">
                   <h3 className="text-xl font-bold text-black mb-2 hover:text-blue-600 transition-colors">ギフトセット</h3>
                 </Link>
                 <p className="text-gray-600">特別な日の贈り物に最適なセット</p>
