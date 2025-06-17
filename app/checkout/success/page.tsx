@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useCart } from '../../../context/CartContext';
+import { useCart } from '@/app/context/CartContext';
 import { useEffect } from 'react';
 
 export default function CheckoutSuccess() {
@@ -12,8 +12,8 @@ export default function CheckoutSuccess() {
     clearCart();
   }, [clearCart]);
 
-  const scrollToProducts = () => {
-    window.location.href = '/#products';
+  const handleProductsClick = () => {
+    router.push('/#products');
   };
 
   return (
@@ -24,7 +24,7 @@ export default function CheckoutSuccess() {
           ご注文が正常に処理されました。商品の準備が整い次第、発送いたします。
         </p>
         <button
-          onClick={scrollToProducts}
+          onClick={handleProductsClick}
           className="bg-coffee-600 text-white px-6 py-3 rounded-lg hover:bg-coffee-700 transition-colors"
         >
           商品一覧に戻る
