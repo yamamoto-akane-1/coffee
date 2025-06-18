@@ -6,6 +6,7 @@ import { useCart } from "@/app/context/CartContext";
 import { useFavorites } from "@/app/context/FavoritesContext";
 import { Product } from "@/app/types";
 import { coffeeBeans, dripEquipment, tumblers, giftSets } from '@/app/data/products';
+import Link from 'next/link';
 
 export default function ProductsPage() {
   const router = useRouter();
@@ -32,7 +33,7 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-gray-50 pt-40 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
@@ -50,11 +51,13 @@ export default function ProductsPage() {
               className="group relative bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
             >
               <div className="relative h-64 w-full">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
+                <Link href={`/products/${product.category}/${product.id}`}>
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
+                </Link>
                 <button
                   onClick={() => handleToggleFavorite(product.id)}
                   className="absolute top-2 right-2 p-2 rounded-full bg-white/80 hover:bg-white transition-colors duration-200"
@@ -77,12 +80,14 @@ export default function ProductsPage() {
                 </button>
               </div>
               <div className="p-4">
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  {product.name}
-                </h3>
-                <p className="text-sm text-gray-500 mb-4 line-clamp-2">
-                  {product.description}
-                </p>
+                <Link href={`/products/${product.category}/${product.id}`}>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2 hover:text-blue-600">
+                    {product.name}
+                  </h3>
+                  <p className="text-sm text-gray-500 mb-4 line-clamp-2">
+                    {product.description}
+                  </p>
+                </Link>
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-bold text-gray-900">
                     ¥{product.price.toLocaleString()}
